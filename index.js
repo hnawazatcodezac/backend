@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -7,9 +8,6 @@ const PORT = process.env.PORT || 4000;
 app.use(cors());
 app.use(express.json());
 
-// ---------------------------------------------------------------------------
-// In-memory data store (no database). Resets every time the server restarts.
-// ---------------------------------------------------------------------------
 let todos = [
   { id: 1, title: "Learn Next.js", completed: true },
   { id: 2, title: "Build a Todo app", completed: false },
@@ -68,7 +66,7 @@ app.delete("/api/todos/:id", (req, res) => {
   const exists = todos.some((t) => t.id === id);
   if (!exists) return res.status(404).json({ error: "Todo not found" });
   todos = todos.filter((t) => t.id !== id);
-  res.status(204).end();
+  res.status(200).end();
 });
 
 app.listen(PORT, () => {
