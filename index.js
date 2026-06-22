@@ -4,8 +4,9 @@ require("dotenv").config();
 
 const app = express();
 const PORT = process.env.PORT || 4000;
+const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
 
-app.use(cors());
+app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
 
 let todos = [
@@ -66,7 +67,7 @@ app.delete("/api/todos/:id", (req, res) => {
   const exists = todos.some((t) => t.id === id);
   if (!exists) return res.status(404).json({ error: "Todo not found" });
   todos = todos.filter((t) => t.id !== id);
-  res.status(200).end();
+  res.status(204).end();
 });
 
 app.listen(PORT, () => {
